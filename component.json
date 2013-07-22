@@ -1,0 +1,15 @@
+{
+  "name": "table",
+  "repo": "chameleonui/table",
+  "description": "Full featured tables",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+    "chameleonui/utils": "*"
+  },
+  "development": {},
+  "license": "MIT",
+  "styles": [
+    "table.styl"
+  ]
+}

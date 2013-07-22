@@ -1,0 +1,206 @@
+// =============================================================================
+// Table variants styling
+// =============================================================================
+
+
+// Variables
+// =============================================================================
+grid-columns-count ?= 12;
+
+table-border-radius ?= 5px;
+table-cell-padding ?= 8px;
+table-condensed-cell-padding ?= 4px;
+table-bg-color ?= #fff;
+table-color ?= #000;
+table-border-color ?= #aaa;
+table-caption-color ?= #000;
+table-thead-bg-color ?= transparent;
+table-thead-color ?= table-color;
+table-tr-even-bg-color ?= table-bg-color; //use rgba if you want to style cols
+table-tr-even-color ?= table-color;
+table-tr-odd-bg-color ?= #f1f1f1; //use rgba if you want to style cols
+table-tr-odd-color ?= table-color;
+table-hover-color ?= inherit;
+table-hover-bg-color ?= #e1e1e1;
+table-tfoot-bg-color ?= transparent;
+table-tfoot-color ?= table-color;
+
+
+// Use flags
+// =============================================================================
+use-table-style ?= true;
+use-table-condensed ?= true;
+use-table-striped ?= true;
+use-table-bordered ?= true;
+use-table-hover ?= true;
+
+// Mixins
+// =============================================================================
+table-style(){
+    table {
+        max-width: 100%;
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+
+    .table {
+        width: 100%;
+        background-color: table-bg-color;
+        color: table-color;
+        margin-bottom: 1;
+
+        th, td {
+            padding: table-cell-padding;
+            text-align: left;
+            vertical-align: top;
+
+            for i in 1..(grid-columns-count - 1) {
+                &.span-{i} {
+                    width: unit((i / grid-columns-count), '%');
+                }
+            }
+        }
+
+        th {
+            font-weight: bold;
+        }
+
+        caption {
+            text-align: left;
+            color: table-caption-color;
+        }
+
+        thead {
+            th, td {
+                vertical-align: bottom;
+                background-color: table-thead-bg-color;
+                color: table-thead-color;
+            }
+        }
+
+        tfoot {
+            th, td {
+                background-color: table-tfoot-bg-color;
+                color: table-tfoot-color;
+            }
+        }
+
+        tbody, tfoot {
+            th, td {
+                border-top: 1px solid table-border-color;
+                // decrease due to border on top
+                padding-top: (table-cell-padding - 1px);
+            }
+        }
+
+    }
+}
+
+// =============================================================================
+
+table-condensed(){
+    .table-condensed {
+        th, td {
+            padding: table-condensed-cell-padding;
+        }
+
+        tbody, tfoot {
+            th, td  {
+                // decrease due to border on top
+                padding-top: table-condensed-cell-padding - 1px;
+            }
+        }
+    }
+}
+
+// =============================================================================
+
+table-striped(){
+    .table-bordered {
+        border: 1px solid table-border-color;
+        border-collapse: separate; // Done so we can round those corners!
+        border-left: 0;
+        border-radius: table-border-radius;
+
+        th, td {
+            border-left: 1px solid table-border-color;
+        }
+
+        // Prevent a double border
+        caption + thead tr:first-child th, 
+        caption + tbody tr:first-child th, 
+        caption + tbody tr:first-child td,
+        colgroup + thead tr:first-child th, 
+        colgroup + tbody tr:first-child th, 
+        colgroup + tbody tr:first-child td,
+        thead:first-child tr:first-child th, 
+        tbody:first-child tr:first-child th, 
+        tbody:first-child tr:first-child td {
+            border-top: 0;
+        }
+
+        // For first th or td in the first row in the first thead or tbody
+        thead:first-child tr:first-child th:first-child, 
+        tbody:first-child tr:first-child td:first-child,
+        thead tr:first-child th:first-child, 
+        thead tr:first-child td:first-child {
+            border-top-left-radius: table-border-radius;
+        }
+
+        thead:first-child tr:first-child th:last-child,
+        tbody:first-child tr:first-child td:last-child {
+            border-top-right-radius: table-border-radius;
+        }
+
+        // For first th or td in the first row in the first thead or tbody
+        thead:last-child tr:last-child th:first-child,
+        tbody:last-child tr:last-child td:first-child,
+        tfoot tr:last-child th:first-child,
+        tfoot tr:last-child td:first-child  {
+            border-bottom-left-radius: table-border-radius;
+        }
+
+        thead:last-child tr:last-child th:last-child, 
+        tbody:last-child tr:last-child td:last-child {
+            border-bottom-right-radius: table-border-radius;
+        }
+    }
+}
+
+// =============================================================================
+
+table-bordered(){
+    .table-striped {
+        tbody {
+            tr:nth-child(even) {
+                td, th {
+                    background-color: table-tr-even-bg-color;
+                }
+            }
+            tr:nth-child(odd) {
+                td, th {
+                    background-color: table-tr-odd-bg-color;
+                }
+            }
+        }
+    }
+} 
+// =============================================================================
+table-hover(){
+    .table {
+        tbody tr:hover td, tbody tr:hover th {
+            background-color: table-hover-bg-color;
+            color: table-hover-color;
+        }
+    }
+} 
+// =============================================================================
+table(){
+    table-style() if use-table-style;
+    table-condensed() if use-table-condensed;
+    table-striped() if use-table-striped;
+    table-bordered() if use-table-bordered;
+    // Hover is placed here since it has to follow after the potential zebra striping
+    table-hover() if use-table-hover;
+}
+
