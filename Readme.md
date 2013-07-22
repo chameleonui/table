@@ -44,12 +44,14 @@ table-tfoot-color = table-color;
 
 ### Use flags
 
+You can disable some table feature through use-flags:
+
 ```
-use-table-style ?= true;
-use-table-condensed ?= true;
-use-table-striped ?= true;
-use-table-bordered ?= true;
-use-table-hover ?= true;
+use-table-style = true|false;
+use-table-condensed = true|false;
+use-table-striped = true|false;
+use-table-bordered = true|false;
+use-table-hover = true|false;
 ```
 
 ### Init

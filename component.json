@@ -2,7 +2,7 @@
   "name": "table",
   "repo": "chameleonui/table",
   "description": "Full featured tables",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "keywords": [],
   "dependencies": {
     "chameleonui/utils": "*"
